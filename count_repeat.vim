@@ -8,6 +8,7 @@ if !has('python')
     finish
 endif
 
+
 function! CountRepeatLine () 
 
 python << EOF
@@ -43,3 +44,4 @@ EOF
 
 endfunction
 
+command! -nargs=0 MyCountRepeatLine :call CountRepeatLine()
