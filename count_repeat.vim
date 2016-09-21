@@ -35,7 +35,7 @@ try:
     #print res_sorted
 
     for (k,v) in res_sorted:
-        buf.append ( '%d,%s' %(v,k) ) 
+        buf.append ( '%8d,%s' %(v,k) ) 
 
 except Exception, e:
     print e
