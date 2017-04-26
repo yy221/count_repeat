@@ -15,8 +15,8 @@ python << EOF
 import vim
 
 try:
-    need_sort = vim.eval("a:arg1")
-    print type(need_sort);
+    count_type = vim.eval("a:arg1")
+    print type(count_type);
 
     # vim.current.buffer is the current buffer. It's list-like object.
     # each line is an item in the list. We can loop through them delete
@@ -24,7 +24,14 @@ try:
 
     buf = vim.current.buffer;
 
-    if int(need_sort) == 1:
+    if int(count_type) == 2: # simple sum
+        res = 0
+
+        for line in buf:
+            res += float(line)
+
+        buf.append ( 'sum=%.3f' %(res) )
+    elif int(count_type) == 1: # sort counter
         res = {}
 
         for line in buf:
@@ -34,12 +41,12 @@ try:
         buf.append ( '--------result--------' )
         for (k,v) in res_sorted:
             buf.append ( '%8d,%s' %(v,k) )
-    else:
+    else:  # simple merge adjacent line
         res = []
         count = 1
         res.append('--------result--------')
+
         for line in buf:
-            # simple merge adjacent line
             if line != res[count-1]:
                 count += 1
                 res.append(line)
