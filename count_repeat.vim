@@ -26,11 +26,14 @@ try:
 
     if int(count_type) == 2: # simple sum
         res = 0
+        total = 0
 
         for line in buf:
+            total += 1
             res += float(line)
 
-        buf.append ( 'sum=%.3f' %(res) )
+        if total > 0:
+            buf.append ( 'avg=%.3f, total=%d, sum=%.3f' %(res/total, total, res) )
     elif int(count_type) == 1: # sort counter
         res = {}
 
