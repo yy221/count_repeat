@@ -3,20 +3,13 @@
 " Copyright: Copyright (C) 2013 chliu
 " License:	The MIT License
 
-if !has('python')
-    echo "Error: Required vim compiled with +python"
-    finish
-endif
-
-
 function! CountRepeatLine (arg1)
 
-python << EOF
-import vim
+Py << EOF
+import sys, os, vim
 
 try:
     count_type = vim.eval("a:arg1")
-    print type(count_type);
 
     # vim.current.buffer is the current buffer. It's list-like object.
     # each line is an item in the list. We can loop through them delete
@@ -39,7 +32,7 @@ try:
 
         for line in buf:
             res[line] = res.get (line, 0) + 1
-        res_sorted = sorted ( res.iteritems(), key=lambda x:x[1], reverse=True )
+        res_sorted = sorted ( res.items(), key=lambda x:x[1], reverse=True )
 
         buf.append ( '--------result--------' )
         for (k,v) in res_sorted:
@@ -57,11 +50,17 @@ try:
         for i in res:
             buf.append ( '%s' %(i) )
 
-except Exception, e:
-    print e
+except Exception as e:
+    print(e)
 
 EOF
 
 endfunction
+
+if has('python')
+  command! -nargs=* Py python <args>
+elseif has('python3')
+  command! -nargs=* Py python3 <args>
+endif
 
 command! -nargs=1 MyCountRepeatLine :call CountRepeatLine(<f-args>)
